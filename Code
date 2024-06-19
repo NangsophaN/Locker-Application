@@ -1,0 +1,56 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class LockerApp extends JFrame implements ActionListener {
+
+    private JLabel messageLabel;
+    private JTextField passwordField;
+    private JButton enterButton;
+    private String password;
+    private boolean passwordSet = false;
+
+    public LockerApp() {
+        super("Locker App");
+        setLayout(new FlowLayout());
+
+        messageLabel = new JLabel("Enter a new password:");
+        passwordField = new JTextField(10);
+        enterButton = new JButton("Enter");
+
+        add(messageLabel);
+        add(passwordField);
+        add(enterButton);
+
+        enterButton.addActionListener(this);
+
+        setSize(300, 100);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String enteredPassword = passwordField.getText();
+
+        if (!passwordSet) {
+            // Set password for the first time
+            password = enteredPassword;
+            passwordSet = true;
+            messageLabel.setText("Password Set");
+        } else {
+            // Verify password to open locker
+            if (enteredPassword.equals(password)) {
+                messageLabel.setText("Correct Password");
+            } else {
+                messageLabel.setText("Incorrect Password");
+            }
+        }
+
+        passwordField.setText(""); // Clear password field after each attempt
+    }
+
+    public static void main(String[] args) {
+        new LockerApp();
+    }
+}
